@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to HTML Converter with Spell Checker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF to HTML Converter</h1>
+            <p>Upload a PDF file to convert it to HTML and perform spell checking</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        <h3>Drop your PDF file here</h3>
+                        <p>or click to browse files</p>
+                        <input 
+                            type="file" 
+                            id="pdfFile" 
+                            accept=".pdf" 
+                            aria-label="Upload PDF file"
+                            tabindex="0"
+                        >
+                    </div>
+                </div>
+                
+                <div class="file-info" id="fileInfo" style="display: none;">
+                    <p><strong>File:</strong> <span id="fileName"></span></p>
+                    <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                </div>
+            </section>
+
+            <section class="processing-section" id="processingSection" style="display: none;">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="processingStatus">Processing PDF...</p>
+                </div>
+            </section>
+
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="tabs">
+                    <button 
+                        class="tab-button active" 
+                        onclick="showTab('html')"
+                        tabindex="0"
+                        aria-label="Show HTML content"
+                    >
+                        HTML Content
+                    </button>
+                    <button 
+                        class="tab-button" 
+                        onclick="showTab('text')"
+                        tabindex="0"
+                        aria-label="Show extracted text"
+                    >
+                        Extracted Text
+                    </button>
+                    <button 
+                        class="tab-button" 
+                        onclick="showTab('spellcheck')"
+                        tabindex="0"
+                        aria-label="Show spell check results"
+                    >
+                        Spell Check
+                    </button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="htmlTab" class="tab-panel active">
+                        <div class="content-header">
+                            <h3>HTML Content</h3>
+                            <div class="button-group">
+                                <button 
+                                    onclick="copyToClipboard('htmlContent')" 
+                                    class="copy-button"
+                                    tabindex="0"
+                                    aria-label="Copy HTML content to clipboard"
+                                >
+                                    Copy HTML
+                                </button>
+                                <button 
+                                    onclick="downloadHtmlFile()" 
+                                    class="download-button"
+                                    tabindex="0"
+                                    aria-label="Download HTML file"
+                                >
+                                    Download HTML
+                                </button>
+                            </div>
+                        </div>
+                        <div id="htmlContent" class="content-area"></div>
+                    </div>
+
+                    <div id="textTab" class="tab-panel">
+                        <div class="content-header">
+                            <h3>Extracted Text</h3>
+                            <button 
+                                onclick="copyToClipboard('textContent')" 
+                                class="copy-button"
+                                tabindex="0"
+                                aria-label="Copy extracted text to clipboard"
+                            >
+                                Copy Text
+                            </button>
+                        </div>
+                        <textarea id="textContent" class="content-area" readonly></textarea>
+                    </div>
+
+                    <div id="spellcheckTab" class="tab-panel">
+                        <div class="content-header">
+                            <h3>Spell Check Results</h3>
+                            <button 
+                                onclick="runSpellCheck()" 
+                                class="action-button"
+                                tabindex="0"
+                                aria-label="Run spell check on HTML content"
+                            >
+                                Run Spell Check
+                            </button>
+                        </div>
+                        <div id="spellcheckResults" class="content-area">
+                            <p class="placeholder">Click "Run Spell Check" to analyze the HTML content for spelling errors and view results in a detailed table.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
